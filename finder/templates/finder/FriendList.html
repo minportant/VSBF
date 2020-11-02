@@ -1,0 +1,51 @@
+{% extends "finder/base.html" %}
+{% block content %}
+{% load socialaccount %}
+{% load static %}
+  <html>
+{% if user.is_authenticated %}
+    <head>
+      <title>Friends List</title>
+    </head>
+    <body>
+    {% if pendingReq %}
+    <h2 class="text-primary">Pending requests</h2>
+      {% for friend in freqs %}
+      <div class="content-section">
+          <div class="media">
+            <img class="rounded-circle account-img" src="{{friend.image.url}}">
+            <div class="media-body">
+              <p style="font-weight: bold; color:blue; font-size:30px;" class="text-primary">{{friend.name}}</p>
+              <p class="text-secondary">{{friend.phone}}</p>
+              <p class="text-secondary">{{friend.major}}</p>
+              <a href="{{user.zoom_link}}" class="text-secondary">{{person.zoom_link}}</a>
+              <a href="../acceptRequest/{{friend.id}}/" class="text-justify">Accept Friend</a>
+              <a href="../deleteRequest/{{friend.id}}/" class="text-justify" style="color:#FF0000;">Delete Request</a>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+    <h1 style="padding-bottom: 20px">Friends</h1>
+    {% for friend in friends %}
+    <div class="content-section">
+        <div class="media">
+          <img class="rounded-circle account-img" src="{{friend.image.url}}">
+          <div class="media-body">
+            <p style="font-weight: bold; color:blue; font-size:30px;" class="text-primary">{{friend.name}}</p>
+            <p class="text-secondary">{{friend.phone}}</p>
+            <p class="text-secondary">{{friend.major}}</p>
+            <a href="{{user.zoom_link}}" class="text-secondary">{{person.zoom_link}}</a>
+            <a href="../removeFriend/{{friend.id}}/" class="text-justify" style="color:#FF0000;">Remove Friend</a>
+          </div>
+        </div>
+    </div>
+    {% endfor %}
+    </body>
+  {% else %}
+    <h1>Login Screen</h1>
+    <p>Please login to see friend list</p>
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  {% endif %}
+  </html>
+{% endblock content %} 

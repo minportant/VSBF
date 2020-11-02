@@ -1,0 +1,55 @@
+{% extends "finder/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+  {% load socialaccount %}
+  <html>    
+  {% if user.is_authenticated %}
+    <h1 style="padding-bottom: 20px">Search for a Study Buddy</h1>
+      <form method="get">
+        <div class="content-section">
+          {{ filter.form.as_p }}
+          <button type="submit" class="btn btn-secondary">Filter</button>
+        </div>
+      </form>
+    <p><br></p>
+    <h2 style="padding-bottom: 20px">Study Buddies</h2>
+    {% for person in filter.qs %}
+      {% if person.user != user and person.user.profile.major != "" %}
+      <div class="content-section">
+        <div class="media">
+          <img class="rounded-circle account-img" src="{{person.image.url}}">
+          <div class="media-body">
+            <p style="font-weight: bold; color:blue; font-size:30px;" class="text-primary">{{person.name}}</p>
+            <p class="text-secondary">Major: {{person.major}}</p>
+            <p class="text-secondary">Graduation: {{person.graduation}}</p>
+          </div>
+          {% if person in user.profile.friends.all%}
+            <h7 style="float: right; color:rgb(0, 255, 234); font-size:20px;" class="text-primary">Friends</h7>
+              {% else %}
+                  {% if person.id in freqsto %}
+                  <div style = "position: relative;" >
+                    <form action="../cancelRequest/{{person.id}}/">
+                      <input type="submit" value="Cancel Request" />
+                    </form>
+                  </div>
+                  {% else %}
+                  <div style = "position: relative;" >
+                    <form action="../sendRequest/{{person.id}}/">
+                      <input type="submit" value="Send Friend Request" />
+                    </form>
+                    </div>
+                  {%endif%}
+              {%endif%}
+          </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+    </body>
+  {% else %}
+    <h1>Login Screen</h1>
+    <p>Please login to find study buddies.</p>
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  {% endif %}
+  </html>
+{% endblock content %}

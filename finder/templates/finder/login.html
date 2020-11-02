@@ -1,0 +1,27 @@
+{% extends "finder/base.html" %}
+{% block content %}
+{% load static %}
+  {% load socialaccount %}
+  <html>
+    <head>
+      <title>Google Registration</title>
+    </head>
+    <body>
+    {% if user.is_authenticated %}
+    <h1 style="padding-bottom: 20px">Home Page</h1>
+      {% if user.profile.major == "" %}
+      <div>
+        To get started, update your profile
+        <a href="/finder/profile/edit">here.</a>
+      </div>
+      {% else %}
+      <p>Welcome back, {{ user.profile.name }}!</p>
+      {% endif %}
+    {% else %}
+    <h1 style="padding-bottom: 40px">Login Screen</h1>
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+    {% endif %}
+
+    </body>
+  </html>
+{% endblock content %}

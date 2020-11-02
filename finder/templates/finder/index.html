@@ -1,0 +1,30 @@
+{% extends "finder/base.html" %}
+{% block content %}
+  {% load socialaccount %}
+  <html>
+    <head>
+      <title>Google Registration</title>
+    </head>
+    <body>
+    {% if user.is_authenticated %}
+    <h2>Account Index</h2>
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
+        <div class="media-body">
+          <h2 class="account-heading">{{user.username}}</h2>
+          <p class="text-secondary">{{user.email}}</p>
+          <p class="text-secondary">{{user.phone}}</p>
+          <p class="text-secondary">{{user.major}}</p>
+          <p class="text-secondary">{{user.graduation}}</p>
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <h2>Login Screen</h2>
+    <p>You are not logged in</p>
+    {% endif %}
+
+    </body>
+  </html>
+{% endblock content %}

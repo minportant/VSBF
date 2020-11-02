@@ -1,0 +1,35 @@
+{% extends "finder/base.html" %}
+{% load crispy_forms_tags %}
+{% load socialaccount %}
+{% block content %}
+<div class="content-section">
+    <div class="content-section">
+        <div class="media">
+          <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
+          <div class="media-body">
+            <h2 class="account-heading">{{user.username}}</h2>
+            <p class="text-secondary"><b>Name: </b>{{user.profile.name}}</p>
+            <p class="text-secondary"><b>Email: </b>{{user.email}}</p>
+            <p class="text-secondary"><b>Gender: </b>{{user.profile.gender}}</p>
+            <p class="text-secondary"><b>Age: </b>{{user.profile.age}}</p>
+            <p class="text-secondary"><b>Phone Number: </b>{{user.profile.phone}}</p>
+            <p class="text-secondary"><b>Graduation Year: </b>{{user.profile.graduation}}</p>
+            <p class="text-secondary"><b>Major: </b>{{user.profile.major}}</p>
+            <p class="text-secondary"><b>Minor: </b>{{user.profile.minor}}</p>
+            <p class="text-secondary"><b>Zoom Link: </b>{{user.profile.zoom_link}}</p>
+          </div>
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Profile Info</legend>
+          {{u_form|crispy}}
+          {{p_form|crispy}}
+      </fieldset>
+      <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Update</button>
+      </div>
+    </form>
+</div>
+{% endblock content %}

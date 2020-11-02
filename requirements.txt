@@ -1,0 +1,8 @@
+Django
+gunicorn
+django-heroku
+django-allauth
+django-phone-field
+django-crispy-forms
+django-filter
+Pillow
