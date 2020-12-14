@@ -1,11 +1,26 @@
+<!-- 
+*  REFERENCES
+*  Title: Python Django Tutorial: Full-Featured Web App Part 9 - Update User Profile
+*  Author: Corey Schafer
+*  Date: 2/18/19
+*  URL_1: https://www.youtube.com/watch?v=CQ90L5jfldw&t
+*  URL_2: https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
+*  Software License: MIT
+-->
+
 {% extends "finder/base.html" %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
+{% load static %}
 {% block content %}
 <div class="content-section">
     <div class="content-section">
         <div class="media">
-          <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
+          {% if user.profile.image.url %}
+            <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
+          {% else %}
+            <img class="rounded-circle account-img" src="{% static 'finder/default.jpg' %}">
+          {% endif %}
           <div class="media-body">
             <h2 class="account-heading">{{user.username}}</h2>
             <p class="text-secondary"><b>Name: </b>{{user.profile.name}}</p>
@@ -16,7 +31,6 @@
             <p class="text-secondary"><b>Graduation Year: </b>{{user.profile.graduation}}</p>
             <p class="text-secondary"><b>Major: </b>{{user.profile.major}}</p>
             <p class="text-secondary"><b>Minor: </b>{{user.profile.minor}}</p>
-            <p class="text-secondary"><b>Zoom Link: </b>{{user.profile.zoom_link}}</p>
           </div>
         </div>
     </div>

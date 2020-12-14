@@ -1,0 +1,33 @@
+<!-- 
+*  REFERENCES
+*  Title: Built in Template Tags and Filters
+*  Author: Django Team
+*  Date: Not Given
+*  Code version: 3.1
+*  URL: https://docs.djangoproject.com/en/3.1/ref/templates/builtins/
+*  Software License: BSD
+-->
+
+{% extends "finder/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load socialaccount %}
+  {% if user.is_authenticated %}
+    <body>
+    <h1 >Top Stories</h1><br>
+    <div class="content-box">
+      {% for title, link in titles.items %}
+          <p style="padding-top: 20px;" class="margin-b-20">
+              {{title}}
+          </p>
+          <a href="{{link}}" class="tm-btn text-uppercase" >Read More</a>  
+      {% endfor %}    
+    </div>
+    </body>
+  {% else %}
+    <h1>Login Screen</h1>
+    <p>Please login to find study buddies.</p>
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  {% endif %}
+{% endblock content %}

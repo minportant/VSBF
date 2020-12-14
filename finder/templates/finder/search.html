@@ -1,55 +1,97 @@
+<!-- 
+*  REFERENCES
+*  Title: How to Filter QuerySets Dynamically
+*  Author: Vitor Freitas
+*  Date: 11/28/16
+*  Code version: 1.0
+*  URL: https://simpleisbetterthancomplex.com/tutorial/2016/11/28/how-to-filter-querysets-dynamically.html
+*  Software License: BSD
+-->
+
 {% extends "finder/base.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
   {% load socialaccount %}
-  <html>    
   {% if user.is_authenticated %}
-    <h1 style="padding-bottom: 20px">Search for a Study Buddy</h1>
+    <h1 style="color:#232D4B; padding-bottom: 20px">Search for a Study Buddy</h1>
       <form method="get">
         <div class="content-section">
           {{ filter.form.as_p }}
-          <button type="submit" class="btn btn-secondary">Filter</button>
+          <button class="btn btn-outline-info" style="padding-right:10px;" type="submit" >Filter</button>
         </div>
       </form>
-    <p><br></p>
-    <h2 style="padding-bottom: 20px">Study Buddies</h2>
+      
+    <h1 style="color:#232D4B; padding-bottom: 20px">Study Buddies</h1>
     {% for person in filter.qs %}
       {% if person.user != user and person.user.profile.major != "" %}
       <div class="content-section">
-        <div class="media">
-          <img class="rounded-circle account-img" src="{{person.image.url}}">
-          <div class="media-body">
-            <p style="font-weight: bold; color:blue; font-size:30px;" class="text-primary">{{person.name}}</p>
-            <p class="text-secondary">Major: {{person.major}}</p>
-            <p class="text-secondary">Graduation: {{person.graduation}}</p>
-          </div>
-          {% if person in user.profile.friends.all%}
-            <h7 style="float: right; color:rgb(0, 255, 234); font-size:20px;" class="text-primary">Friends</h7>
+          <div class="media">
+            <div style="width:20%; float:left">
+              {% if person.image.url %}
+              <img class="rounded-circle account-img" src="{{person.image.url}}">
               {% else %}
-                  {% if person.id in freqsto %}
-                  <div style = "position: relative;" >
-                    <form action="../cancelRequest/{{person.id}}/">
-                      <input type="submit" value="Cancel Request" />
-                    </form>
-                  </div>
+              <img class="rounded-circle account-img" src="{% static 'finder/default.jpg' %}">
+              {% endif %}
+            </div>
+            <div style="width:80%; float:right">
+              <div class="media-body">
+                <p style="font-weight: bold; color:#232D4B; font-size:30px;" >{{person.name}}</p>
+                <p class="text-secondary">Email: {{person.user.email}}</p>
+                <p class="text-secondary">Major: {{person.major}}</p>
+                <p class="text-secondary">Graduation: {{person.graduation}}</p>
+              </div>
+              {% if person in user.profile.friends.all%}
+                <h7 style="padding-right:10px; float: right; color:#232D4B; font-size:20px;" >Friends </h7>
                   {% else %}
-                  <div style = "position: relative;" >
-                    <form action="../sendRequest/{{person.id}}/">
-                      <input type="submit" value="Send Friend Request" />
-                    </form>
-                    </div>
+                      {% if person.id in freqsto %}
+                      <div style = "padding-bottom: 3px; position: relative; padding-right:10px;" >
+                        <form action="../cancelRequest/{{person.id}}/">
+                          <button class="btn btn-outline-info" type="submit" value="Cancel Friend Request">Cancel Friend Request</button>
+                        </form>
+                      </div>
+                      {% else %}
+                      <div style = "padding-bottom: 3px; position: relative; padding-right:10px;" >
+                        <form action="../sendRequest/{{person.id}}/">
+                          <button class="btn btn-outline-info" type="submit" value="Send Friend Request">Send Friend Request</button>
+                        </form>
+                        </div>
+                      {%endif%}
                   {%endif%}
-              {%endif%}
+                  {% if person.user.profile.group == user.profile.group and person.user.profile.group != "" %}
+                <h7 style="padding-right: 10px; float: right; color:#232D4B; font-size:20px;" > Clanmates</h7>
+                  {% else %}
+                      {% if person.id in greqsto %}
+                      <div style = "position: relative;" >
+                        <form action="../cancel_group_invite/{{person.id}}/">
+                          <button class="btn btn-outline-info" type="submit" value="Cancel Clan Invite">Cancel Clan Invite</button>
+                        </form>
+                      </div>
+                      {% else %}
+                      <div style = "position: relative;" >
+                        {% if valid %}
+                          <form action="../invite_to_group/{{person.id}}/">
+                            <button class="btn btn-outline-info" type="submit" value="Send Clan Invite">Send Clan Invite</button>
+                          </form>
+                        {% else %}
+                        <form action="../groups/">
+                            <button class="btn btn-outline-info" type="submit" value="Create Clan First">Create Clan First</button>
+                        </form>
+                        {% endif %}
+                        </div>
+                      {%endif%}
+                  {%endif%}
+            </div>
           </div>
       </div>
     {% endif %}
     {% endfor %}
     </body>
   {% else %}
-    <h1>Login Screen</h1>
-    <p>Please login to find study buddies.</p>
-    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+    <div style="padding-left: 40px;">
+      <h1>Please Login.</h1>
+      <h5>Please Login to use VSBFinder.</h5><br>
+      <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  </div>
   {% endif %}
-  </html>
 {% endblock content %}

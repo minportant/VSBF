@@ -1,25 +1,33 @@
 {% extends "finder/base.html" %}
 {% block content %}
 {% load static %}
+<div class="tm-home-img-container">
+    <img src="{% static 'finder/homepg.png' %}" class="img-fluid">
+</div>
+<br>  
   {% load socialaccount %}
   <html>
-    <head>
-      <title>Google Registration</title>
-    </head>
     <body>
     {% if user.is_authenticated %}
-    <h1 style="padding-bottom: 20px">Home Page</h1>
       {% if user.profile.major == "" %}
       <div>
-        To get started, update your profile
-        <a href="/finder/profile/edit">here.</a>
+        <h1>To get started, update your profile.</h1>
+        <a href="/finder/profile/edit"><button style="color:black;" class="btn btn-outline-info">Edit Profile</button></a>
+        <br>
       </div>
       {% else %}
-      <p>Welcome back, {{ user.profile.name }}!</p>
+      <br>
+      <h1>Already Logged in</h1><br>  
+      <h5>Welcome, {{ user.profile.name }}!</h5>
       {% endif %}
     {% else %}
-    <h1 style="padding-bottom: 40px">Login Screen</h1>
-    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+      <div style="text-align:center;">
+      <h1>Please Login.</h1>
+      <h5>Please Login to use VSBFinder.</h5><br>
+      </div>
+      <p><br></p><br>
+      <p><br></p><br>
+      <p><br></p><br>
     {% endif %}
 
     </body>

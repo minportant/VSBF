@@ -1,14 +1,30 @@
+<!-- 
+*  REFERENCES
+*  Title: Python Django Tutorial: Full-Featured Web App Part 8 - User Profile and Picture
+*  Author: Corey Schafer
+*  Date: 2/18/19
+*  URL_1: https://www.youtube.com/watch?v=FdVuKt_iuSI&t
+*  URL_2: https://github.com/CoreyMSchafer/code_snippets/tree/master/Django_Blog
+*  Software License: MIT
+-->
+
 {% extends "finder/base.html" %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
 {% load static %}
 {% block content %}
   {% if user.is_authenticated %}
-  <h1 style="padding-bottom: 20px">Profile Page</h1>
+  <h1 style="color:#232D4B; padding-bottom: 20px">Profile Page</h1>
     <div class="content-section">
         <div class="media">
-          <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
-          <div class="media-body">
+          <div style="width:20%; float:left">
+            {% if user.profile.image.url %}
+            <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
+            {% else %}
+            <img class="rounded-circle account-img" src="{% static 'finder/default.jpg' %}">
+            {% endif %}
+          </div>
+          <div style="width:80%; float:right">
             <h2 class="account-heading">{{user.username}}</h2>
             <p class="text-secondary"><b>Name: </b>{{user.profile.name}}</p>
             <p class="text-secondary"><b>Email: </b>{{user.email}}</p>
@@ -18,14 +34,21 @@
             <p class="text-secondary"><b>Graduation Year: </b>{{user.profile.graduation}}</p>
             <p class="text-secondary"><b>Major: </b>{{user.profile.major}}</p>
             <p class="text-secondary"><b>Minor: </b>{{user.profile.minor}}</p>
-            <p class="text-secondary"><b>Zoom Link: <a href="{{user.profile.zoom_link}}" class="text-secondary"></b>{{user.profile.zoom_link}}</a></p>
+            <a href="/finder/profile/edit"><button style="color:black;" class="btn btn-outline-info">Edit Profile</button></a>
           </div>
         </div>
-        <a class="nav-item nav-link" href="/finder/profile/edit">Edit Profile</a>
     </div>
   {% else %}
-    <h1>Login Screen</h1>
-    <p>Please login to access the profile page.</p>
-    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  <div class="tm-home-img-container">
+    <img src="{% static 'finder/homepg.png' %}" class="img-fluid">
+  </div>
+  <br>
+  <div style="text-align:center;">
+  <h1>Please Login.</h1>
+  <h5>Please Login to use VSBFinder.</h5><br>
+  </div>
+  <p><br></p><br>
+  <p><br></p><br>
+  <p><br></p><br>
   {% endif %}
 {% endblock content %}

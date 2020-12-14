@@ -1,30 +1,103 @@
 {% extends "finder/base.html" %}
+{% load static %}
+{% load socialaccount %}
 {% block content %}
-  {% load socialaccount %}
-  <html>
-    <head>
-      <title>Google Registration</title>
-    </head>
-    <body>
-    {% if user.is_authenticated %}
-    <h2>Account Index</h2>
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{user.profile.image.url}}">
-        <div class="media-body">
-          <h2 class="account-heading">{{user.username}}</h2>
-          <p class="text-secondary">{{user.email}}</p>
-          <p class="text-secondary">{{user.phone}}</p>
-          <p class="text-secondary">{{user.major}}</p>
-          <p class="text-secondary">{{user.graduation}}</p>
-        </div>
+<div class="tm-home-img-container">
+    <img src="{% static 'finder/homepg.png' %}" class="img-fluid">
+</div>
+<br>
+{% if user.is_authenticated %}
+    {% if user.profile.major == "" %}
+        <div style="text-align:center;">
+            <h1>To get started,</h1>
+                <h6>If you haven't already, create your profile by clicking <a href="/finder/profile/edit" style="color:red">here.</a></h6>
+                <h6>Search for buddies by clicking on "Find Buddies" tab.</h6>
+                <h6>Filter through the list, find friends or clanmates.</h6>
+                <h6>If prompted to create clan first, create your clan with your zoom link.</h6>
+                <h6>Send friend or clan requests.</h6>
+                <h6>Go to "My Clan" tab and see the list of users in your clan.</h6>
+                <h6>Click on the group zoom link to get in call with your clanmates.</h6>
+                <h6>For current events, checkout the "Top Stories" tab. Use this feature to take a quick study break!</h6>
+        <br>
       </div>
-    </div>
     {% else %}
-    <h2>Login Screen</h2>
-    <p>You are not logged in</p>
-    {% endif %}
+    <section class="tm-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-xs-center">
+                    <h1 class="tm-gold-text tm-title">Welcome, {{ user.profile.name }}!</h1>
+                    <p class="tm-subtitle">VSBFinder is a web-app to help students find other students with similar interests to connect them and allow them to meet and study virtually. </p>
+                </div>
+            </div>
+            <h1 style="text-align:center; color:#232D4B" class="tm-gold-text tm-title">Top Health Stories</h1><br><br>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
 
-    </body>
-  </html>
+                    <div class="tm-content-box">
+                        <h4 style="color:#232D4B" class="tm-margin-b-20 tm-gold-text">Top Story #1</h4>
+                        {% for title, link in titles1.items %}
+                            <p class="tm-margin-b-20">
+                                {{title}}
+                            </p>
+                            <a href="{{link}}" class="tm-btn text-uppercase">Read More</a>  
+                        {% endfor %}    
+                    </div>  
+
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+
+                    <div class="tm-content-box">
+                        <h4 style="color:#232D4B" class="tm-margin-b-20 tm-gold-text">Top Story #2</h4>
+                        {% for title, link in titles2.items %}
+                            <p class="tm-margin-b-20">
+                                {{title}}
+                            </p>
+                            <a href="{{link}}" class="tm-btn text-uppercase">Read More</a>  
+                        {% endfor %} 
+                    </div>  
+
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+
+                    <div class="tm-content-box">
+                        <h4 style="color:#232D4B" class="tm-margin-b-20 tm-gold-text">Top Story #3</h4>
+                        {% for title, link in titles3.items %}
+                            <p class="tm-margin-b-20">
+                                {{title}}
+                            </p>
+                            <a href="{{link}}" class="tm-btn text-uppercase">Read More</a>  
+                        {% endfor %}   
+                    </div>  
+
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
+
+                    <div class="tm-content-box">
+                        <h4 style="color:#232D4B" class="tm-margin-b-20 tm-gold-text">Top Story #4</h4>
+                        {% for title, link in titles4.items %}
+                            <p class="tm-margin-b-20">
+                                {{title}}
+                            </p>
+                            <a href="{{link}}" class="tm-btn text-uppercase">Read More</a>  
+                        {% endfor %}
+                    </div>  
+
+                </div>
+            </div> <!-- row -->
+        </div>
+    </section><br>
+    <h3 style="text-align:center; color:#232D4B">For more Top Health Stories, click <a style="color:#E57200"href="/finder/top_stories">here.</a></h3>
+    {% endif %}
+    {% else %} 
+    <div style="text-align:center;">
+    <h1>Please Login.</h1>
+    <h5>Please Login to use VSBFinder.</h5><br>
+    </div>
+    <p><br></p><br>
+    <p><br></p><br>
+    <p><br></p><br>
+{% endif %}
 {% endblock content %}

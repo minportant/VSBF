@@ -1,0 +1,73 @@
+{% extends "finder/base.html" %}
+{% block content %}
+{% load socialaccount %}
+{% load static %}
+  <html>
+{% if user.is_authenticated %}
+    <head>
+      <title>Groups</title>
+    </head>
+    <body>
+    <form   method="POST" role="form" action='{% url "finder:create_group" %}'>
+   {% csrf_token %}
+    <h1>Create Clan</h1>
+    <div class="content-section">
+    <h7 style="color:#E57200;">***One clan per user, if in existing clan, it will delete current clan.</h7>
+
+     {% if valid %}
+        <h5>Clan Name: <input type='text' name='group_name' value="{{ group_name }}" /></h5>
+        {% else %}
+        <h5>Clan Name: <input type='text' placeholder="Clan already exists" name='group_name' value="{{ group_name }}" /></h5>
+        {% endif %}
+
+
+    <h7 style="color:#E57200;">***Please generate a zoom room and enter the url for the group here. (i.e https://www.zoom.us/...)</h7>
+    <h5>Group Zoom Link: <input type='url' name='group_zoom_link' value="{{ group_zoom_link }}" /></h5>
+    <button class="btn btn-outline-info" type="submit" value="Create">Create</button>
+    </div>
+    </form>
+    {% if pendingReq %}
+    <h1 style="padding-bottom: 20px; padding-top: 20px">Pending Requests</h1>
+      {% for greq in greqs %}
+      <div class="content-section">
+          <div class="media">
+            <div style="width:20%; float:left">
+              {% if greq.image.url %}
+              <img class="rounded-circle account-img" src="{{greq.image.url}}">
+              {% else %}
+              <img class="rounded-circle account-img" src="{% static 'finder/default.jpg' %}">
+              {% endif %}
+            </div>
+            <div style="width:80%; float:right">
+              <div class="media-body">
+                <p style="font-weight: bold; color:#232D4B; font-size:30px;" class="text-primary">{{greq.name}}</p>
+                <p class="text-secondary">{{greq.phone}}</p>
+                <p class="text-secondary">{{greq.major}}</p>
+                <a href="../accept_group_request/{{greq.id}}/"><button style="color:black;" class="btn btn-outline-info">Accept Clan Invite</button></a>
+                <a href="../delete_group_request/{{greq.id}}/"><button style="color:#FF0000;" class="btn btn-outline-info">Delete Clan Invite</button></a>
+              </div>
+            </div>
+          </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+        <h1 style="padding-bottom: 20px; padding-top: 20px">Your Clan</h1>
+    {% if group %}
+        <div class="content-section">
+            <div class="media">
+              <div class="media-body">
+                <a href="../{{group}}" style="font-weight: bold; color:#232D4B; font-size:30px;">{{group}}</a>
+                <br>
+                <a href="../leave_group"><button style="color:#FF0000;" class="btn btn-outline-info">Leave Clan</button></a>
+              </div>
+            </div>
+        </div>
+    {% endif %}
+    </body>
+  {% else %}
+    <h1>Login Screen</h1>
+    <p>Please login to see groups</p>
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  {% endif %}
+  </html>
+{% endblock content %}

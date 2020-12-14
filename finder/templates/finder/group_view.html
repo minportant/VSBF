@@ -1,0 +1,41 @@
+{% extends "finder/base.html" %}
+{% block content %}
+{% load socialaccount %}
+{% load static %}
+  <html>
+{% if user.is_authenticated %}
+{% csrf_token %}
+    <head>
+      <title>{{group_name}}</title>
+    </head>
+    <body>
+    <h1>{{group_name}} Clan Page</h1><br>
+    <h4 style="padding-bottom: 20px; color:#232D4B">Click <a style="padding-bottom: 20px; color:#E57200" href="{{members.0.group_zoom_link}}" >here </a>to go to {{group_name}} Zoom Link</h4>
+    {% for mem in members %}
+        <div class="content-section">
+        <div class="media">
+          <div style="width:20%; float:left">
+            {% if mem.image.url %}
+            <img class="rounded-circle account-img" src="{{mem.image.url}}">
+            {% else %}
+            <img class="rounded-circle account-img" src="{% static 'finder/default.jpg' %}">
+            {% endif %}
+          </div>
+          <div style="width:80%; float:right">
+            <div class="media-body">
+              <p style="font-weight: bold; color:#232D4B; font-size:30px;">{{mem.name}}</p>
+              <p class="text-secondary">Major: {{mem.major}}</p>
+              <p class="text-secondary">Graduation: {{mem.graduation}}</p>
+            </div>
+          </div>
+        </div>
+        </div>
+    {% endfor %}
+    </body>
+  {% else %}
+    <h1>Login Screen</h1>
+    <p>Please login to see clanmates</p>
+    <a href="{% provider_login_url 'google' %}"><img src="{% static 'finder/signgoogle.png' %}"> </a>
+  {% endif %}
+  </html>
+{% endblock content %}

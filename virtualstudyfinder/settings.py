@@ -1,3 +1,11 @@
+'''***************************************************************************************
+*  REFERENCES
+*  Title: Django tutorial: How to authenticate using Google
+*  Author: JustDjango
+*  Date: 4/14/20
+*  URL: https://www.youtube.com/watch?v=NG48CLLsb1A
+*  Software License: mIT
+***************************************************************************************'''
 """
 Django settings for virtualstudyfinder project.
 
@@ -53,9 +61,10 @@ STATIC_URL = '/static/'
 SITE_ID = 1
 
 ACCOUNT_LOGOUT_ON_GET = True 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/finder/'
+LOGOUT_REDIRECT_URL = '/finder/login/'
+LOGIN_URL = '/finder/login/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,7 +105,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'finder_db',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '5432',
     }

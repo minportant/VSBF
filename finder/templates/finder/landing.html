@@ -1,0 +1,30 @@
+{% extends "finder/base.html" %}
+{% load static %}
+{% load socialaccount %}
+{% block content %}
+<div class="tm-home-img-container">
+    <img src="{% static 'finder/homepg.png' %}" class="img-fluid">
+</div>
+
+{% if user.is_authenticated %}
+    <div style="padding-top:20px; text-align:center;">
+                <h1>Welcome!</h1>
+                    <p align=left; >We know how rough it is to find study buddies during these confusing and trying times.
+                    So, we created this application to help students like you find them! This app aims to provide you tools
+                    to help you stay on top of your studying partners. Thank you for your use! Click 'Start' or 'Login'
+                        to get started!</p>
+                    <a href="/finder" class="nav-link"><button style="color:black;" class="btn btn-outline-info">Start</button></a>
+            <br>
+    </div>
+{% else %}
+    <div style="padding-top:20px; text-align:center;">
+        <h1>Welcome!</h1>
+            <p align=left; >We know how rough it is to find study buddies during these confusing and trying times.
+            So, we created this application to help students like you find them! This app aims to provide you tools
+            to help you stay on top of your studying partners. Thank you for your use! Click 'Start' or 'Login'
+                to get started!</p>
+            <a href="{% provider_login_url 'google' %}" class="nav-link"><button style="color:black;" class="btn btn-outline-info">Start</button></a>
+    <br>
+    </div>
+{% endif %}
+{% endblock content %}

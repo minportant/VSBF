@@ -1,0 +1,20 @@
+{% extends "finder/base.html" %}
+{% block content %}
+{% load static %}
+<div class="tm-home-img-container">
+    <img src="{% static 'finder/homepg.png' %}" class="img-fluid">
+</div>
+<br>  
+  {% load socialaccount %}
+  <html>
+    <body>
+      <div style="text-align:center;">
+    <h1 style=" color:#232D4B" class="tm-gold-text tm-title">Are you sure you want to logout?</h1><br><br>
+    <a href="{% url 'account_logout' %}" ><button style="color:red;" class="btn btn-outline-info">Logout</button></a>
+      </div>
+      <p><br></p><br>
+      <p><br></p><br>
+      <p><br></p><br>
+    </body>
+  </html>
+{% endblock content %}
